@@ -1,9 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-
-using namespace std;
+#include "../aoc.h"
 
 const bool isValidIDSimple(const string&);
 const bool isValidIDComplex(const string&);

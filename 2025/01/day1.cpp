@@ -1,8 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-
-using namespace std;
+#include "../aoc.h"
 
 int main(int argc, char* argv[])
 {
