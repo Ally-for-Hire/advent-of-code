@@ -56,30 +56,29 @@ const bool isValidIDComplex(const string& s)
     if (!isValidIDSimple(s))
         return false;
 
-    if(s == "824824824") cout << "DING DING DING DING DING" << endl;
-
     for(int len = 1; len < s.size(); ++len)
     {
         if (s.size() % len != 0) 
             continue;
 
         string sub = s.substr(0, len);
-        bool equals = true;
+        bool doesNotEqual = true;
 
         for(int i = 0; i < s.size(); i += len)
         {
             string comp = s.substr(i, len);
 
             if (comp != sub) 
-                equals = false;
+                doesNotEqual = true;
         }
 
-        if (equals)
+        if (doesNotEqual)
             return false;
     }
 
     return true;
 } 
+
 // Credit: https://cplusplus.com/articles/2wA0RXSz/
 const vector<string> explode(const string& s, const char& c)
 {
