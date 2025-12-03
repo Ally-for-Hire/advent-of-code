@@ -8,13 +8,13 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    int part1Answer = 0, part2Answer = 0;
+    int part1Answer = 0;
+    long long part2Answer = 0;
     string input, line;
     int firstMax, secondMax, startIndex, cur;
     while (getline(file, line)) 
     {
         firstMax = 0;
-        startIndex = 0;
         secondMax = 0;
 
         for(size_t i = 0; i < line.size(); ++i)
@@ -23,7 +23,6 @@ int main(int argc, char* argv[])
 
             if (cur > firstMax && i < line.size() - 1)
             {
-                startIndex = i;
                 firstMax = cur;
                 secondMax = 0;
                 continue;
@@ -34,6 +33,27 @@ int main(int argc, char* argv[])
         }
 
         part1Answer += (firstMax * 10 + secondMax);
+
+        int startIndex = 0;
+        int digitsLeft = 12;
+        while (digitsLeft > -1)
+        {
+            int temp = 0;
+            int newStart = 0;
+
+            for(int i = startIndex; i < line.size() - digitsLeft + 1; ++i)
+            {
+                int cur = line[i] - '0';
+                if(cur <= temp) continue;
+
+                temp = cur;
+                newStart = i;
+            }
+
+            part2Answer += temp * pow(10, digitsLeft - 1);
+            startIndex = newStart + 1;
+            digitsLeft--;
+        }
     }
     
     cout << "Part 1 Answer: " << part1Answer << endl;
