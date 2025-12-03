@@ -15,20 +15,22 @@ int main(int argc, char* argv[])
     {
         firstMax = 0;
         startIndex = 0;
-        for(size_t i = 0; i + 1 < line.size(); ++i)
-        {
-            int cur = line[i] - '0';
-            if (cur <= firstMax) continue;
-
-            startIndex = i;
-            firstMax = cur;
-        }
-
         secondMax = 0;
-        for(size_t i = startIndex + 1; i < line.size(); ++i)
+
+        for(size_t i = 0; i < line.size(); ++i)
         {
             cur = line[i] - '0';
-            if (cur > secondMax) secondMax = cur;
+
+            if (cur > firstMax && i < line.size() - 1)
+            {
+                startIndex = i;
+                firstMax = cur;
+                secondMax = 0;
+                continue;
+            }
+
+            if (cur > secondMax) 
+                secondMax = cur;
         }
 
         part1Answer += (firstMax * 10 + secondMax);
