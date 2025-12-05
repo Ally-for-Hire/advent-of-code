@@ -1,4 +1,4 @@
-#include "aoc.h"
+#include "../aoc.h"
 
 int main(int argc, char* argv[])
 {
