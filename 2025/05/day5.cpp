@@ -20,10 +20,8 @@ const bool inRanges(const string, const vector<Range>);
 int main(int argc, char* argv[])
 {
     ifstream file(argv[1]);
-    if (!file.is_open()) {
-        cout << argv[1] << " Failed to Open" << endl;
+    if (!file.is_open())
         return -1;
-    }
     
     int part1Answer = 0;
     long long part2Answer = 0;
