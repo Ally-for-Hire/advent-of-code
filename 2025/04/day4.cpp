@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-bool checkSurroundings(Point point, Point bounds, string& input)
+bool checkSurroundings(const Point point, const Point bounds, string& input)
 {
     vector<Point> adj;
     int count = 0;
