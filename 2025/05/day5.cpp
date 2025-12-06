@@ -16,7 +16,6 @@ struct Range
 };
 const vector<string> explode(const string&, const char&);
 const bool inRanges(const string, const vector<Range>);
-const Range rangeUnion(const Range&, const Range&);
 
 int main(int argc, char* argv[])
 {
@@ -83,16 +82,6 @@ int main(int argc, char* argv[])
 
     file.close();
     return 0;
-}
-
-const Range rangeUnion(const Range& range1, const Range& range2)
-{
-    Range out = Range{};
-    if (range1.max < range2.min || range2.max < range1.min) return range1;
-    if (range1.min > range2.min || range2.max < range1.max) return range1;
-    out.min = range1.min < range2.min ? range1.min : range2.min;
-    out.max = range1.max > range2.max ? range1.max : range2.max;
-    return out;
 }
 
 const bool inRanges(const string num, const vector<Range> ranges)
