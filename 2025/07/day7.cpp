@@ -26,7 +26,6 @@ int main(int argc, char* argv[])
     {
         if (input[0][i] != 'S') continue;
         
-        // we start the one below S
         part1Answer = journey(i, 1, input);
         part2Answer = timelineJourney(i, 1, input_copy, memo);
         break;
@@ -48,13 +47,13 @@ int journey(int x, int y, vector<string>& input)
     if(cur == '.')
     {
         input[y][x] = '|';
-        res = journey(x, y + 1, input);
+        res = journey(x, y+1, input);
     }
     else if (cur == '^')
     {   
         input[y][x+1] = '|';
         input[y][x-1] = '|';
-        res = journey(x + 1, y + 1, input) + journey(x - 1, y + 1, input) + 1;
+        res = journey(x+1, y+1, input) + journey(x-1, y+1, input)+1;
     }
 
     return res;
@@ -73,9 +72,9 @@ long long timelineJourney(int x, int y, vector<string> input, vector<vector<long
 
     long long res = 0;
     if(cur == '.')
-        res = timelineJourney(x, y + 1, input, memo);
+        res = timelineJourney(x, y+1, input, memo);
     else
-        res = timelineJourney(x + 1, y + 1, input, memo) + timelineJourney(x - 1, y + 1, input, memo);
+        res = timelineJourney(x+1, y+1, input, memo) + timelineJourney(x-1, y+1, input, memo);
 
     cached = res;
     return res;
