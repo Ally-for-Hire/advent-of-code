@@ -9,27 +9,27 @@ int main(int argc, char* argv[])
         return -1;
 
     long long part1Answer = 0, part2Answer = 0;
-    string input, line;
-    vector<vector<string>> lines;
+    string line;
+    vector<vector<string>> input;
     int expressionLine = 0, len = 0;
     while (getline(file, line)) 
     {
         vector<string> exp = explode(line, ' ');
-        lines.push_back(exp);
+        input.push_back(exp);
         if(exp[0] == "+" || exp[0] == "*")
             break;
         expressionLine++;
     }
 
-    len = lines[expressionLine].size();
+    len = input[expressionLine].size();
 
     for(int i = 0; i < len; ++i)
     {
-        string exp = lines[expressionLine][i];
+        string exp = input[expressionLine][i];
         long long out = exp == "+" ? 0 : 1;
         for(int g = 0; g < expressionLine; ++g)
         {
-            long long num = stoll(lines[g][i]);
+            long long num = stoll(input[g][i]);
 
             if (exp == "*")
                 out *= num;
@@ -41,8 +41,9 @@ int main(int argc, char* argv[])
 
     for(int i = 0; i < len; ++i)
     {
-        string exp = lines[expressionLine][i];
+        string exp = input[expressionLine][i];
         long long out = exp == "+" ? 0 : 1;
+        
         for(int g = 0; g < expressionLine; ++g)
         {
             // lines[g][i] give us the numbers to do math with
