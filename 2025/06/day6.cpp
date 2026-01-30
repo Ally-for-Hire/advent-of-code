@@ -11,48 +11,47 @@ int main(int argc, char* argv[])
     long long part1Answer = 0, part2Answer = 0;
     string line;
     vector<vector<string>> input;
-    int expressionLine = 0, len = 0;
+    vector<string> input_raw;
+    int expressionLine = 0;
     while (getline(file, line)) 
     {
         vector<string> exp = explode(line, ' ');
         input.push_back(exp);
+        input_raw.push_back(line);
         if(exp[0] == "+" || exp[0] == "*")
             break;
         expressionLine++;
     }
 
-    len = input[expressionLine].size();
+    int len = input[expressionLine].size();
+    int len_raw = input_raw[0].size();
 
-    for(int i = 0; i < len; ++i)
+    for(int col = 0; col < len; ++col)
     {
-        string exp = input[expressionLine][i];
+        string exp = input[expressionLine][col];
         long long out = exp == "+" ? 0 : 1;
-        for(int g = 0; g < expressionLine; ++g)
+        for(int row = 0; row < expressionLine; ++row)
         {
-            long long num = stoll(input[g][i]);
+            long long num = stoll(input[row][col]);
 
-            if (exp == "*")
-                out *= num;
-            else
-                out += num;
+            if (exp == "*") out *= num;
+            else out += num;
         }
         part1Answer += out;
     }
 
-    for(int i = 0; i < len; ++i)
+    for(int col = 0; col < len_raw; ++col)
     {
-        string exp = input[expressionLine][i];
-        long long out = exp == "+" ? 0 : 1;
+        string expLine = input_raw[expressionLine];
+        char cur = expLine[col];
+
+        if (cur == ' ') continue;
+
+        int w = 0, h = input.size()-1;
+        while(expLine[col + ++w] == ' '); 
+        w--;
+
         
-        for(int g = 0; g < expressionLine; ++g)
-        {
-            // lines[g][i] give us the numbers to do math with
-            // we need to take the numbers in each individual column
-            // build final numbers out of that
-            // and then do our math
-            // this is weird
-        }
-        part2Answer += out;
     }
 
     cout << "Part 1 Answer << " << part1Answer << endl;
