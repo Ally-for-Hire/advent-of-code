@@ -1,6 +1,7 @@
 #include "../aoc.h"
 
 const vector<string> explode(const string&, const char&);
+const int intBuilder(const char&, const char&, const char&, const char&);
 
 int main(int argc, char* argv[])
 {
@@ -40,18 +41,21 @@ int main(int argc, char* argv[])
         part1Answer += out;
     }
 
-    for(int col = 0; col < len_raw; ++col)
+    for(int col = 0; col < len_raw; col += 4)
     {
-        string expLine = input_raw[expressionLine];
-        char cur = expLine[col];
+        char exp = input_raw[4][col];
+        int num1 = intBuilder(input_raw[0][col], input_raw[1][col], input_raw[2][col], input_raw[3][col]);
+        int num2 = intBuilder(input_raw[0][col+1], input_raw[1][col+1], input_raw[2][col+1], input_raw[3][col+1]);
+        int num3 = intBuilder(input_raw[0][col+2], input_raw[1][col+2], input_raw[2][col+2], input_raw[3][col+2]);
 
-        if (cur == ' ') continue;
-
-        int w = 0, h = input.size()-1;
-        while(expLine[col + ++w] == ' '); 
-        w--;
-
+        long long out;
         
+        if (exp == '*')
+            out = num1 * num2 * num3;
+        else
+            out = num1 + num2 + num3;
+
+        part2Answer += out;
     }
 
     cout << "Part 1 Answer << " << part1Answer << endl;
@@ -75,4 +79,28 @@ const vector<string> explode(const string& s, const char& c)
 	if(buff != "") v.push_back(buff);
 	
 	return v;
+}
+
+const int intBuilder(const char& a, const char& b, const char& c, const char& d)
+{
+    vector<int> ints;
+    int num1 = a - '0';
+    ints.push_back(num1 == -16 ? 0 : num1);
+    int num2 = b - '0';
+    ints.push_back(num2 == -16 ? 0 : num2);
+    int num3 = c - '0';
+    ints.push_back(num3 == -16 ? 0 : num3);
+    int num4 = d - '0';
+    ints.push_back(num4 == -16 ? 0 : num4);
+
+    int output = 0;
+    int tens = 0;
+    for (int i = ints.size() - 1; i > -1; --i)
+    {
+        if (ints[i] == 0) continue;
+        output += ints[i] * pow(10, tens);
+        tens++;
+    }
+
+    return output;
 }
