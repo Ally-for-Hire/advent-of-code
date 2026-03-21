@@ -3,14 +3,17 @@
 
 struct Vector3
 {
-    int x;
-    int y;
-    int z;
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    int circuitIndex = -1;
 };
 
-float euclideanDistance(const Vector3& a, const Vector3& b);
+float euclideanDistance(const Vector3&, const Vector3&);
 const vector<string> explode(const string&, const char&);
-void printCircuits(const vector<vector<Vector3>>& circuits);
+void printCircuits(const vector<vector<Vector3>>&);
+const pair<int, int> find2Closest(const vector<Vector3>&);
+void mergeCircuits(vector<vector<int>>&, vector<Vector3>&, int a, int b);
 
 int main(int argc, char* argv[])
 {
@@ -21,7 +24,7 @@ int main(int argc, char* argv[])
     int part1Answer = 1, part2Answer = 0;
     string input, line;
     vector<Vector3> junctions;
-    vector<vector<Vector3>> circuits;
+    vector<vector<int>> circuits;
 
     while (getline(file, line)) 
     { 
@@ -37,14 +40,40 @@ int main(int argc, char* argv[])
     // if both are in circuits, merge them into the lowest index circuit
     for (int i = 0; i < 10; i++)
     {
+        auto [ia, ib] = find2Closest(junctions); // returns indices
+        auto& A = junctions[ia];
+        auto& B = junctions[ib];
 
+        if (A.circuitIndex == -1 && B.circuitIndex == -1)
+        {
+            circuits.push_back({ia, ib});
+            int idx = (int)circuits.size() - 1;
+            A.circuitIndex = idx;
+            B.circuitIndex = idx;
+        }
+        else if (A.circuitIndex == -1)
+        {
+            int idx = B.circuitIndex;
+            circuits[idx].push_back(ia);
+            A.circuitIndex = idx;
+        }
+        else if (B.circuitIndex == -1)
+        {
+            int idx = A.circuitIndex;
+            circuits[idx].push_back(ib);
+            B.circuitIndex = idx;
+        }
+        else
+        {
+            mergeCircuits(circuits, junctions, ia, ib);
+        }
     }
     
     for (auto circuit : circuits)
         part1Answer *= circuit.size();
 
-    cout << "Part 1 Answer << " << part1Answer << endl;
-    cout << "Part 2 Answer << " << part2Answer << endl;
+    cout << "Part 1 Answer: " << part1Answer << endl;
+    cout << "Part 2 Answer: " << part2Answer << endl;
 
     file.close();
     return 0;
@@ -68,9 +97,7 @@ const vector<string> explode(const string& s, const char& c)
 
 float euclideanDistance(const Vector3& a, const Vector3& b)
 {
-    return sqrt((a.x - b.x)*(a.x - b.x) + 
-                (a.y - b.y)*(a.y - b.y) + 
-                (a.z - b.z)*(a.z - b.z));
+    return sqrt((a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y) + (a.z - b.z)*(a.z - b.z));
 }
 
 
